@@ -1115,6 +1115,12 @@ class Translations$settingsTab$receive$en {
   /// en: 'Quick Save for "Favorites"'
   String get quickSaveFromFavorites => _root.general.quickSaveFromFavorites;
 
+  /// en: 'Automatically copy received text to clipboard'
+  String get autoCopyReceivedText => 'Automatically copy received text to clipboard';
+
+  /// en: 'Only auto-copy text from favorite devices'
+  String get autoCopyReceivedTextFromFavoritesOnly => 'Only auto-copy text from favorite devices';
+
   /// en: 'Require PIN'
   String get requirePin => _root.webSharePage.requirePin;
 

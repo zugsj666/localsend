@@ -178,6 +178,22 @@ class SettingsTab extends StatelessWidget {
                     }
                   },
                 ),
+                if (defaultTargetPlatform == TargetPlatform.windows) ...[
+                  _BooleanEntry(
+                    label: t.settingsTab.receive.autoCopyReceivedText,
+                    value: vm.settings.autoCopyReceivedText,
+                    onChanged: (b) async {
+                      await ref.notifier(settingsProvider).setAutoCopyReceivedText(b);
+                    },
+                  ),
+                  _BooleanEntry(
+                    label: t.settingsTab.receive.autoCopyReceivedTextFromFavoritesOnly,
+                    value: vm.settings.autoCopyReceivedTextFromFavoritesOnly,
+                    onChanged: (b) async {
+                      await ref.notifier(settingsProvider).setAutoCopyReceivedTextFromFavoritesOnly(b);
+                    },
+                  ),
+                ],
                 _BooleanEntry(
                   label: t.settingsTab.receive.requirePin,
                   value: vm.settings.receivePin != null,

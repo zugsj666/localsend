@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localsend_app/model/state/server/receive_session_state.dart';
 import 'package:localsend_app/model/state/server/receiving_file.dart';
 import 'package:localsend_app/pages/home_page.dart';
@@ -157,11 +157,27 @@ class ReceiveController {
       return;
     }
 
-    if (checkPlatformHasTray() && (await windowManager.isMinimized() || !(await windowManager.isVisible()) || !(await windowManager.isFocused()))) {
+    final message = server.getState().session?.message;
+    var autoCopiedMessage = false;
+    if (message != null && defaultTargetPlatform == TargetPlatform.windows && settings.autoCopyReceivedText) {
+      final senderIsFavorite = server.ref.read(favoritesProvider).any((favorite) => favorite.fingerprint == senderFingerprint);
+      if (!settings.autoCopyReceivedTextFromFavoritesOnly || senderIsFavorite) {
+        try {
+          await Clipboard.setData(ClipboardData(text: message));
+          autoCopiedMessage = true;
+          _logger.info('Copied received message to clipboard.');
+        } catch (e, st) {
+          _logger.warning('Failed to copy received message to clipboard.', e, st);
+        }
+      }
+    }
+
+    if (!autoCopiedMessage &&
+        checkPlatformHasTray() &&
+        (await windowManager.isMinimized() || !(await windowManager.isVisible()) || !(await windowManager.isFocused()))) {
       await showFromTray();
     }
 
-    final message = server.getState().session?.message;
     if (message != null) {
       // Message already received
       await server.ref
@@ -179,6 +195,12 @@ class ReceiveController {
               timestamp: DateTime.now().toUtc(),
             ),
           );
+    }
+
+    if (autoCopiedMessage) {
+      // Message content is embedded in the prepare request; accepting no files completes the message transfer.
+      await acceptFileRequest({});
+      return;
     }
 
     final receiveProvider = ViewProvider((ref) {

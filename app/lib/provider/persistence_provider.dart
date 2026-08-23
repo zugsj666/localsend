@@ -81,6 +81,8 @@ const _destinationKey = 'ls_destination';
 const _saveToGallery = 'ls_save_to_gallery';
 const _saveToHistory = 'ls_save_to_history';
 const _quickSave = 'ls_quick_save'; // a QuickSaveMode; was a bool until storage version 2 ('ls_quick_save_from_favorites' is merged into this key)
+const _autoCopyReceivedText = 'ls_auto_copy_received_text';
+const _autoCopyReceivedTextFromFavoritesOnly = 'ls_auto_copy_received_text_from_favorites_only';
 const _receivePin = 'ls_receive_pin';
 const _autoFinish = 'ls_auto_finish';
 const _minimizeToTray = 'ls_minimize_to_tray';
@@ -460,6 +462,22 @@ class PersistenceService {
 
   Future<void> setQuickSave(QuickSaveMode mode) async {
     await _prefs.setString(_quickSave, mode.name);
+  }
+
+  bool isAutoCopyReceivedText() {
+    return _prefs.getBool(_autoCopyReceivedText) ?? defaultTargetPlatform == TargetPlatform.windows;
+  }
+
+  Future<void> setAutoCopyReceivedText(bool autoCopyReceivedText) async {
+    await _prefs.setBool(_autoCopyReceivedText, autoCopyReceivedText);
+  }
+
+  bool isAutoCopyReceivedTextFromFavoritesOnly() {
+    return _prefs.getBool(_autoCopyReceivedTextFromFavoritesOnly) ?? false;
+  }
+
+  Future<void> setAutoCopyReceivedTextFromFavoritesOnly(bool favoritesOnly) async {
+    await _prefs.setBool(_autoCopyReceivedTextFromFavoritesOnly, favoritesOnly);
   }
 
   String? getReceivePin() {

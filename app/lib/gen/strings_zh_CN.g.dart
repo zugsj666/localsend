@@ -975,6 +975,10 @@ class Translations$settingsTab$receive$zh_CN extends Translations$settingsTab$re
   @override
   String get quickSaveFromFavorites => _root.general.quickSaveFromFavorites;
   @override
+  String get autoCopyReceivedText => '收到文本后自动复制到剪贴板';
+  @override
+  String get autoCopyReceivedTextFromFavoritesOnly => '仅允许收藏设备自动写入剪贴板';
+  @override
   String get requirePin => _root.webSharePage.requirePin;
   @override
   String get autoFinish => '自动完成传输任务';

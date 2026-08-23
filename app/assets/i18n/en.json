@@ -116,6 +116,8 @@
       "title": "Receive",
       "quickSave": "@:general.quickSave",
       "quickSaveFromFavorites": "@:general.quickSaveFromFavorites",
+      "autoCopyReceivedText": "Automatically copy received text to clipboard",
+      "autoCopyReceivedTextFromFavoritesOnly": "Only auto-copy text from favorite devices",
       "requirePin": "@:webSharePage.requirePin",
       "autoFinish": "Auto Finish",
       "destination": "Save to folder",

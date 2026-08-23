@@ -60,6 +60,8 @@ class SettingsService extends PureNotifier<SettingsState> {
     saveToHistory: _persistence.isSaveToHistory(),
     quickSave: _persistence.getQuickSave() == QuickSaveMode.on,
     quickSaveFromFavorites: _persistence.getQuickSave() == QuickSaveMode.paired,
+    autoCopyReceivedText: _persistence.isAutoCopyReceivedText(),
+    autoCopyReceivedTextFromFavoritesOnly: _persistence.isAutoCopyReceivedTextFromFavoritesOnly(),
     receivePin: _persistence.getReceivePin(),
     autoFinish: _persistence.isAutoFinish(),
     minimizeToTray: _persistence.isMinimizeToTray(),
@@ -202,6 +204,20 @@ class SettingsService extends PureNotifier<SettingsState> {
     state = state.copyWith(
       quickSave: mode == QuickSaveMode.on,
       quickSaveFromFavorites: mode == QuickSaveMode.paired,
+    );
+  }
+
+  Future<void> setAutoCopyReceivedText(bool autoCopyReceivedText) async {
+    await _persistence.setAutoCopyReceivedText(autoCopyReceivedText);
+    state = state.copyWith(
+      autoCopyReceivedText: autoCopyReceivedText,
+    );
+  }
+
+  Future<void> setAutoCopyReceivedTextFromFavoritesOnly(bool favoritesOnly) async {
+    await _persistence.setAutoCopyReceivedTextFromFavoritesOnly(favoritesOnly);
+    state = state.copyWith(
+      autoCopyReceivedTextFromFavoritesOnly: favoritesOnly,
     );
   }
 
