@@ -50,6 +50,19 @@ class SendTab extends StatelessWidget {
         final sizingInformation = SizingInformation(MediaQuery.sizeOf(context).width);
         final buttonWidth = sizingInformation.isDesktop ? BigButton.desktopWidth : BigButton.mobileWidth;
         final ref = context.ref;
+        final pickerButtons = pickerOptions.map((option) {
+          return BigButton(
+            icon: option.icon,
+            label: option.label,
+            filled: false,
+            onTap: () async => ref.global.dispatchAsync(
+              PickFileAction(
+                option: option,
+                context: context,
+              ),
+            ),
+          );
+        }).toList();
         return ResponsiveListView(
           padding: EdgeInsets.zero,
           children: [
@@ -62,25 +75,25 @@ class SendTab extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
-              ResponsiveWrapView(
-                outerHorizontalPadding: 15,
-                outerVerticalPadding: 10,
-                childPadding: 10,
-                minChildWidth: buttonWidth,
-                children: pickerOptions.map((option) {
-                  return BigButton(
-                    icon: option.icon,
-                    label: option.label,
-                    filled: false,
-                    onTap: () async => ref.global.dispatchAsync(
-                      PickFileAction(
-                        option: option,
-                        context: context,
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
+              if (checkPlatform([TargetPlatform.android]))
+                SizedBox(
+                  height: 85,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: pickerButtons.length,
+                    separatorBuilder: (_, _) => const SizedBox(width: 10),
+                    itemBuilder: (_, index) => pickerButtons[index],
+                  ),
+                )
+              else
+                ResponsiveWrapView(
+                  outerHorizontalPadding: 15,
+                  outerVerticalPadding: 10,
+                  childPadding: 10,
+                  minChildWidth: buttonWidth,
+                  children: pickerButtons,
+                ),
             ] else ...[
               Card(
                 margin: const EdgeInsets.only(bottom: 10, left: _horizontalPadding, right: _horizontalPadding),

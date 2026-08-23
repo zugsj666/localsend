@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:localsend_app/model/state/server/receive_session_state.dart';
 import 'package:localsend_app/model/state/server/receiving_file.dart';
@@ -158,7 +159,7 @@ class ReceiveController {
 
     final message = server.getState().session?.message;
     var autoCopiedMessage = false;
-    if (message != null && checkPlatform([TargetPlatform.windows, TargetPlatform.android]) && settings.autoCopyReceivedText) {
+    if (message != null && defaultTargetPlatform == TargetPlatform.windows && settings.autoCopyReceivedText) {
       final senderIsFavorite = server.ref.read(favoritesProvider).any((favorite) => favorite.fingerprint == senderFingerprint);
       if (!settings.autoCopyReceivedTextFromFavoritesOnly || senderIsFavorite) {
         try {
