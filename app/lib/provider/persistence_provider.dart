@@ -89,6 +89,7 @@ const _minimizeToTray = 'ls_minimize_to_tray';
 const _https = 'ls_https';
 const _sendMode = 'ls_send_mode';
 const _enableAnimations = 'ls_enable_animations';
+const _showDeviceVerification = 'ls_show_device_verification';
 const _deviceType = 'ls_device_type';
 const _deviceModel = 'ls_device_model';
 const _shareViaLinkAutoAccept = 'ls_share_via_link_auto_accept';
@@ -581,6 +582,14 @@ class PersistenceService {
 
   bool getEnableAnimations() {
     return _prefs.getBool(_enableAnimations) ?? true;
+  }
+
+  bool getShowDeviceVerification() {
+    return _prefs.getBool(_showDeviceVerification) ?? (kIsWeb || checkPlatformIsNot([TargetPlatform.windows, TargetPlatform.android]));
+  }
+
+  Future<void> setShowDeviceVerification(bool showDeviceVerification) async {
+    await _prefs.setBool(_showDeviceVerification, showDeviceVerification);
   }
 
   DeviceType? getDeviceType() {

@@ -9,6 +9,7 @@ import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
 import 'package:localsend_app/provider/file_transfer_provider.dart';
 import 'package:localsend_app/provider/network/send_provider.dart';
+import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/util/favorites.dart';
 import 'package:localsend_app/util/native/taskbar_helper.dart';
 import 'package:localsend_app/widget/animations/initial_fade_transition.dart';
@@ -97,6 +98,7 @@ class _SendPageState extends State<SendPage> with Refena {
     final targetDevice = sendState?.target ?? _targetDevice!;
     final targetFavoriteEntry = ref.watch(favoritesProvider.select((state) => state.findDevice(targetDevice)));
     final waiting = sendState?.status == SessionStatus.waiting;
+    final showDeviceVerification = ref.watch(settingsProvider.select((settings) => settings.showDeviceVerification));
 
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
@@ -139,27 +141,28 @@ class _SendPageState extends State<SendPage> with Refena {
                               nameOverride: targetFavoriteEntry?.alias,
                             ),
                           ),
-                          InitialFadeTransition(
-                            duration: const Duration(milliseconds: 300),
-                            delay: const Duration(milliseconds: 400),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: TextButton.icon(
-                                onPressed: !targetDevice.https
-                                    ? null
-                                    : () async => await context.push(
-                                        () => VerifyPage(
-                                          fingerprint: CombinedFingerprint.load(context, targetDevice.fingerprint),
+                          if (showDeviceVerification)
+                            InitialFadeTransition(
+                              duration: const Duration(milliseconds: 300),
+                              delay: const Duration(milliseconds: 400),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: TextButton.icon(
+                                  onPressed: !targetDevice.https
+                                      ? null
+                                      : () async => await context.push(
+                                          () => VerifyPage(
+                                            fingerprint: CombinedFingerprint.load(context, targetDevice.fingerprint),
+                                          ),
                                         ),
-                                      ),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Theme.of(context).colorScheme.onSurface,
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                  icon: Icon(Icons.verified_user),
+                                  label: Text(t.verifyPage.title),
                                 ),
-                                icon: Icon(Icons.verified_user),
-                                label: Text(t.verifyPage.title),
                               ),
                             ),
-                          ),
                         ],
                       ),
                     ),

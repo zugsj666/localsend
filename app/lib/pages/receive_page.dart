@@ -72,6 +72,7 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
         }
       },
     );
+    final showDeviceVerification = ref.watch(settingsProvider.select((settings) => settings.showDeviceVerification));
 
     if (vm.status == null && vm.message == null) {
       return const Scaffold(
@@ -156,7 +157,7 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                         style: smallUi ? null : Theme.of(context).textTheme.titleLarge,
                                         textAlign: TextAlign.center,
                                       ),
-                                      if (vm.showSenderInfo && vm.message == null)
+                                      if (showDeviceVerification && vm.showSenderInfo && vm.message == null)
                                         Padding(
                                           padding: const EdgeInsets.only(top: 8),
                                           child: Row(
@@ -215,7 +216,7 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                               spacing: 20,
                                               runSpacing: 10,
                                               children: [
-                                                if (vm.showSenderInfo)
+                                                if (showDeviceVerification && vm.showSenderInfo)
                                                   ElevatedButton.icon(
                                                     onPressed: () async => await context.push(
                                                       () => VerifyPage(

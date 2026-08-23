@@ -145,6 +145,14 @@ class SettingsTab extends StatelessWidget {
                     await ref.notifier(settingsProvider).setEnableAnimations(b);
                   },
                 ),
+                if (!kIsWeb && checkPlatform([TargetPlatform.windows, TargetPlatform.android]))
+                  _BooleanEntry(
+                    label: t.settingsTab.general.showDeviceVerification,
+                    value: vm.settings.showDeviceVerification,
+                    onChanged: (b) async {
+                      await ref.notifier(settingsProvider).setShowDeviceVerification(b);
+                    },
+                  ),
               ],
             ),
             _SettingsSection(

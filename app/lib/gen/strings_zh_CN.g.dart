@@ -959,6 +959,8 @@ class Translations$settingsTab$general$zh_CN extends Translations$settingsTab$ge
   String get showInContextMenu => '在“发送到...”文件菜单中显示 LocalSend';
   @override
   String get animations => '动画效果';
+  @override
+  String get showDeviceVerification => '显示设备身份验证按钮';
 }
 
 // Path: settingsTab.receive

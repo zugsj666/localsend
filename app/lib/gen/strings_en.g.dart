@@ -1096,6 +1096,9 @@ class Translations$settingsTab$general$en {
 
   /// en: 'Animations'
   String get animations => 'Animations';
+
+  /// en: 'Show device identity verification buttons'
+  String get showDeviceVerification => 'Show device identity verification buttons';
 }
 
 // Path: settingsTab.receive

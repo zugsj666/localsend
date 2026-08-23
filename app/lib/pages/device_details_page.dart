@@ -4,6 +4,7 @@ import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/favorite_device.dart';
 import 'package:localsend_app/pages/verify_page.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
+import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/util/favorites.dart';
 import 'package:localsend_app/widget/big_button.dart';
 import 'package:localsend_app/widget/dialogs/favorite_delete_dialog.dart';
@@ -65,6 +66,7 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> with Refena {
   Widget build(BuildContext context) {
     final device = widget.device;
     final favoriteEntry = ref.watch(favoritesProvider).findDevice(device);
+    final showDeviceVerification = ref.watch(settingsProvider.select((settings) => settings.showDeviceVerification));
     return Scaffold(
       appBar: AppBar(
         title: Text(t.deviceDetailsPage.title),
@@ -82,18 +84,20 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> with Refena {
                 width: 120,
                 onTap: () async => await _toggleFavorite(favoriteEntry),
               ),
-              const SizedBox(width: 20),
-              BigButton(
-                icon: Icons.verified_user,
-                label: t.deviceDetailsPage.verify,
-                filled: false,
-                width: 120,
-                onTap: () async => await context.push(
-                  () => VerifyPage(
-                    fingerprint: CombinedFingerprint.load(context, device.fingerprint),
+              if (showDeviceVerification) ...[
+                const SizedBox(width: 20),
+                BigButton(
+                  icon: Icons.verified_user,
+                  label: t.deviceDetailsPage.verify,
+                  filled: false,
+                  width: 120,
+                  onTap: () async => await context.push(
+                    () => VerifyPage(
+                      fingerprint: CombinedFingerprint.load(context, device.fingerprint),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ],
           ),
           const SizedBox(height: 30),

@@ -69,6 +69,7 @@ class SettingsService extends PureNotifier<SettingsState> {
     sendMode: _persistence.getSendMode(),
     saveWindowPlacement: _persistence.getSaveWindowPlacement(),
     enableAnimations: _persistence.getEnableAnimations(),
+    showDeviceVerification: _persistence.getShowDeviceVerification(),
     deviceType: _persistence.getDeviceType(),
     deviceModel: _persistence.getDeviceModel(),
     shareViaLinkAutoAccept: _persistence.getShareViaLinkAutoAccept(),
@@ -267,6 +268,13 @@ class SettingsService extends PureNotifier<SettingsState> {
     await _persistence.setEnableAnimations(enableAnimations);
     state = state.copyWith(
       enableAnimations: enableAnimations,
+    );
+  }
+
+  Future<void> setShowDeviceVerification(bool showDeviceVerification) async {
+    await _persistence.setShowDeviceVerification(showDeviceVerification);
+    state = state.copyWith(
+      showDeviceVerification: showDeviceVerification,
     );
   }
 
