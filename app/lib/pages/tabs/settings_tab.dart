@@ -178,7 +178,7 @@ class SettingsTab extends StatelessWidget {
                     }
                   },
                 ),
-                if (defaultTargetPlatform == TargetPlatform.windows) ...[
+                if (checkPlatform([TargetPlatform.windows, TargetPlatform.android])) ...[
                   _BooleanEntry(
                     label: t.settingsTab.receive.autoCopyReceivedText,
                     value: vm.settings.autoCopyReceivedText,

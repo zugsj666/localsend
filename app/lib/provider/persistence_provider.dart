@@ -465,7 +465,7 @@ class PersistenceService {
   }
 
   bool isAutoCopyReceivedText() {
-    return _prefs.getBool(_autoCopyReceivedText) ?? defaultTargetPlatform == TargetPlatform.windows;
+    return _prefs.getBool(_autoCopyReceivedText) ?? checkPlatform([TargetPlatform.windows, TargetPlatform.android]);
   }
 
   Future<void> setAutoCopyReceivedText(bool autoCopyReceivedText) async {
