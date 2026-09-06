@@ -22,6 +22,7 @@ import 'package:localsend_app/provider/security_provider.dart';
 import 'package:localsend_app/provider/selection/selected_receiving_files_provider.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
+import 'package:localsend_app/util/auto_copy.dart';
 import 'package:localsend_app/util/native/directories.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/util/native/tray_helper.dart';
@@ -42,6 +43,7 @@ import 'package:uuid/uuid.dart';
 import 'package:window_manager/window_manager.dart';
 
 final _logger = Logger('ReceiveController');
+const _pasteboardChannel = MethodChannel('pasteboard');
 
 /// Handles all server events for receiving files.
 /// The HTTP requests themselves are served by the Rust server which emits
@@ -388,6 +390,25 @@ class ReceiveController {
               timestamp: DateTime.now().toUtc(),
             ),
           );
+
+      final settings = server.ref.read(settingsProvider);
+      final senderIsFavorite = server.ref.read(favoritesProvider).any((favorite) => favorite.fingerprint == receiveState.sender.fingerprint);
+      if (shouldAutoCopyReceivedImage(
+        platform: defaultTargetPlatform,
+        enabled: settings.autoCopyReceivedImage,
+        favoritesOnly: settings.autoCopyReceivedTextFromFavoritesOnly,
+        senderIsFavorite: senderIsFavorite,
+        fileType: fileType,
+        filePath: filePath,
+      )) {
+        try {
+          // The Windows plugin accepts the saved path directly, avoiding a large Dart byte copy and temporary file.
+          await _pasteboardChannel.invokeMethod<void>('writeImage', {'fileName': filePath});
+          _logger.info('Copied received image to clipboard.');
+        } catch (e, st) {
+          _logger.warning('Failed to copy received image to clipboard.', e, st);
+        }
+      }
     } else {
       server.ref.notifier(fileTransferProvider).setStatus(sessionId: event.sessionId, fileId: fileId, status: FileStatus.failed);
       server.setState(

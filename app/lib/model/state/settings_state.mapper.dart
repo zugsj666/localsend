@@ -100,6 +100,12 @@ class SettingsStateMapper extends ClassMapperBase<SettingsState> {
     'autoCopyReceivedText',
     _$autoCopyReceivedText,
   );
+  static bool _$autoCopyReceivedImage(SettingsState v) =>
+      v.autoCopyReceivedImage;
+  static const Field<SettingsState, bool> _f$autoCopyReceivedImage = Field(
+    'autoCopyReceivedImage',
+    _$autoCopyReceivedImage,
+  );
   static bool _$autoCopyReceivedTextFromFavoritesOnly(SettingsState v) =>
       v.autoCopyReceivedTextFromFavoritesOnly;
   static const Field<SettingsState, bool>
@@ -206,6 +212,7 @@ class SettingsStateMapper extends ClassMapperBase<SettingsState> {
     #quickSave: _f$quickSave,
     #quickSaveFromFavorites: _f$quickSaveFromFavorites,
     #autoCopyReceivedText: _f$autoCopyReceivedText,
+    #autoCopyReceivedImage: _f$autoCopyReceivedImage,
     #autoCopyReceivedTextFromFavoritesOnly:
         _f$autoCopyReceivedTextFromFavoritesOnly,
     #receivePin: _f$receivePin,
@@ -244,6 +251,7 @@ class SettingsStateMapper extends ClassMapperBase<SettingsState> {
       quickSave: data.dec(_f$quickSave),
       quickSaveFromFavorites: data.dec(_f$quickSaveFromFavorites),
       autoCopyReceivedText: data.dec(_f$autoCopyReceivedText),
+      autoCopyReceivedImage: data.dec(_f$autoCopyReceivedImage),
       autoCopyReceivedTextFromFavoritesOnly: data.dec(
         _f$autoCopyReceivedTextFromFavoritesOnly,
       ),
@@ -349,6 +357,7 @@ abstract class SettingsStateCopyWith<$R, $In extends SettingsState, $Out>
     bool? quickSave,
     bool? quickSaveFromFavorites,
     bool? autoCopyReceivedText,
+    bool? autoCopyReceivedImage,
     bool? autoCopyReceivedTextFromFavoritesOnly,
     String? receivePin,
     bool? autoFinish,
@@ -414,6 +423,7 @@ class _SettingsStateCopyWithImpl<$R, $Out>
     bool? quickSave,
     bool? quickSaveFromFavorites,
     bool? autoCopyReceivedText,
+    bool? autoCopyReceivedImage,
     bool? autoCopyReceivedTextFromFavoritesOnly,
     Object? receivePin = $none,
     bool? autoFinish,
@@ -451,6 +461,8 @@ class _SettingsStateCopyWithImpl<$R, $Out>
         #quickSaveFromFavorites: quickSaveFromFavorites,
       if (autoCopyReceivedText != null)
         #autoCopyReceivedText: autoCopyReceivedText,
+      if (autoCopyReceivedImage != null)
+        #autoCopyReceivedImage: autoCopyReceivedImage,
       if (autoCopyReceivedTextFromFavoritesOnly != null)
         #autoCopyReceivedTextFromFavoritesOnly:
             autoCopyReceivedTextFromFavoritesOnly,
@@ -499,6 +511,10 @@ class _SettingsStateCopyWithImpl<$R, $Out>
     autoCopyReceivedText: data.get(
       #autoCopyReceivedText,
       or: $value.autoCopyReceivedText,
+    ),
+    autoCopyReceivedImage: data.get(
+      #autoCopyReceivedImage,
+      or: $value.autoCopyReceivedImage,
     ),
     autoCopyReceivedTextFromFavoritesOnly: data.get(
       #autoCopyReceivedTextFromFavoritesOnly,

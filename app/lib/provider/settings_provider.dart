@@ -61,6 +61,7 @@ class SettingsService extends PureNotifier<SettingsState> {
     quickSave: _persistence.getQuickSave() == QuickSaveMode.on,
     quickSaveFromFavorites: _persistence.getQuickSave() == QuickSaveMode.paired,
     autoCopyReceivedText: _persistence.isAutoCopyReceivedText(),
+    autoCopyReceivedImage: _persistence.isAutoCopyReceivedImage(),
     autoCopyReceivedTextFromFavoritesOnly: _persistence.isAutoCopyReceivedTextFromFavoritesOnly(),
     receivePin: _persistence.getReceivePin(),
     autoFinish: _persistence.isAutoFinish(),
@@ -212,6 +213,13 @@ class SettingsService extends PureNotifier<SettingsState> {
     await _persistence.setAutoCopyReceivedText(autoCopyReceivedText);
     state = state.copyWith(
       autoCopyReceivedText: autoCopyReceivedText,
+    );
+  }
+
+  Future<void> setAutoCopyReceivedImage(bool autoCopyReceivedImage) async {
+    await _persistence.setAutoCopyReceivedImage(autoCopyReceivedImage);
+    state = state.copyWith(
+      autoCopyReceivedImage: autoCopyReceivedImage,
     );
   }
 

@@ -195,6 +195,13 @@ class SettingsTab extends StatelessWidget {
                     },
                   ),
                   _BooleanEntry(
+                    label: t.settingsTab.receive.autoCopyReceivedImage,
+                    value: vm.settings.autoCopyReceivedImage,
+                    onChanged: (b) async {
+                      await ref.notifier(settingsProvider).setAutoCopyReceivedImage(b);
+                    },
+                  ),
+                  _BooleanEntry(
                     label: t.settingsTab.receive.autoCopyReceivedTextFromFavoritesOnly,
                     value: vm.settings.autoCopyReceivedTextFromFavoritesOnly,
                     onChanged: (b) async {

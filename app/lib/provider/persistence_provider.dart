@@ -82,6 +82,7 @@ const _saveToGallery = 'ls_save_to_gallery';
 const _saveToHistory = 'ls_save_to_history';
 const _quickSave = 'ls_quick_save'; // a QuickSaveMode; was a bool until storage version 2 ('ls_quick_save_from_favorites' is merged into this key)
 const _autoCopyReceivedText = 'ls_auto_copy_received_text';
+const _autoCopyReceivedImage = 'ls_auto_copy_received_image';
 const _autoCopyReceivedTextFromFavoritesOnly = 'ls_auto_copy_received_text_from_favorites_only';
 const _receivePin = 'ls_receive_pin';
 const _autoFinish = 'ls_auto_finish';
@@ -471,6 +472,14 @@ class PersistenceService {
 
   Future<void> setAutoCopyReceivedText(bool autoCopyReceivedText) async {
     await _prefs.setBool(_autoCopyReceivedText, autoCopyReceivedText);
+  }
+
+  bool isAutoCopyReceivedImage() {
+    return _prefs.getBool(_autoCopyReceivedImage) ?? defaultTargetPlatform == TargetPlatform.windows;
+  }
+
+  Future<void> setAutoCopyReceivedImage(bool autoCopyReceivedImage) async {
+    await _prefs.setBool(_autoCopyReceivedImage, autoCopyReceivedImage);
   }
 
   bool isAutoCopyReceivedTextFromFavoritesOnly() {

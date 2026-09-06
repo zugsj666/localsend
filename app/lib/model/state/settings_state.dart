@@ -25,6 +25,7 @@ class SettingsState with SettingsStateMappable {
   final bool quickSave; // automatically accept file requests
   final bool quickSaveFromFavorites; // automatically accept file requests from favorites
   final bool autoCopyReceivedText; // automatically copy received messages to the clipboard
+  final bool autoCopyReceivedImage; // automatically copy received images to the clipboard
   final bool autoCopyReceivedTextFromFavoritesOnly;
   final String? receivePin; // null = disabled
   final bool autoFinish; // automatically finish sessions
@@ -60,6 +61,7 @@ class SettingsState with SettingsStateMappable {
     required this.quickSave,
     required this.quickSaveFromFavorites,
     required this.autoCopyReceivedText,
+    required this.autoCopyReceivedImage,
     required this.autoCopyReceivedTextFromFavoritesOnly,
     required this.receivePin,
     required this.autoFinish,

@@ -118,6 +118,7 @@
       "quickSave": "@:general.quickSave",
       "quickSaveFromFavorites": "@:general.quickSaveFromFavorites",
       "autoCopyReceivedText": "收到文本后自动复制到剪贴板",
+      "autoCopyReceivedImage": "收到图片后自动复制到剪贴板",
       "autoCopyReceivedTextFromFavoritesOnly": "仅允许收藏设备自动写入剪贴板",
       "requirePin": "@:webSharePage.requirePin",
       "autoFinish": "自动完成传输任务",
